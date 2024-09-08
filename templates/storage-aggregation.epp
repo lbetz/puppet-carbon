@@ -1,0 +1,10 @@
+<%- | String[1]        $aggregation_name,
+      String[1]        $pattern,
+      Float[0,1]       $factor,
+      String[1]        $method,
+| -%>
+
+[<%= $aggregation_name %>]
+pattern = <%= $pattern %>
+xFilesFactor = <%= $factor %>
+aggregationMethod = <%= $method %>

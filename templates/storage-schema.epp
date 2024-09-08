@@ -1,0 +1,10 @@
+<%- | String[1]        $schema_name,
+      String[1]        $pattern,
+      Array[String[1]] $retentions,
+      Boolean          $compressed,
+| -%>
+
+[<%= $schema_name %>]
+pattern = <%= $pattern %>
+retentions = <%= join($retentions, ',') %>
+compressed = <%= $compressed %>

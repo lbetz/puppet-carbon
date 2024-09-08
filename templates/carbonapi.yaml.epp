@@ -1,0 +1,37 @@
+<%- | Array[String]       $listeners,
+      Optional[String[1]] $prefix,
+      String[3,3]         $not_found_status_code,
+      Integer[1]          $concurency,
+      Integer[0]          $cpus,
+      Array[String]       $backends,
+| -%>
+# This file is managed by Puppet. DO NOT EDIT.
+
+listeners:
+<% $listeners.each |$listener| { -%>
+  - address: "<%= $listener %>"
+<% } -%>
+<% if $prefix { -%>
+prefix: <%= $prefix %>
+<% } -%>
+notFoundStatusCode: <%= $not_found_status_code %>
+cpus: <%= $cpus %>
+concurency: <%= $concurency %>
+upstreams:
+  timeouts:
+    find: "2s"
+    render: "10s"
+    connect: "500ms"
+  concurrencyLimitPerServer: 0
+  keepAliveInterval: "30s"
+  maxIdleConnsPerHost: 10
+  backendsv2:
+    backends:
+      - groupName: group1
+        protocol: auto
+        lbMethod: broadcast
+        maxTries: 3
+        servers:
+<% $backends.each |$backend| {-%>
+          - "<%= $backend %>"
+<% } -%>
