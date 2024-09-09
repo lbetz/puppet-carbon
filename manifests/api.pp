@@ -9,31 +9,23 @@
 # @param listeners
 #   Describe the port and address that carbonapi will bind to.
 #
-# @param prefix
-#   Specify prefix for all URLs.
-#
-# @param not_found_status_code
-#   This option controls what status code will be returned if `/render`
-#   or `/metrics/find` won't return any metrics.
-#
-# @param concurency
-#   Specify max metric requests that can be fetched in parallel.
-#
-# @param cpus
-#   Specify amount of CPU Cores that golang can use.
+# @param upstreams
 #
 # @param backends
+#   Backends of upstream backendsv2. Overrides option backends set in backendsv2.
+#
+# @param carbonsearch_backends
+#   Backends of upstream carbonsearchv2. Overrides option backends set in carbonsearchv2.
 #
 class carbon::api (
-  Stdlib::Ensure::Service $ensure                = running,
-  Boolean                 $enable                = true,
-  Boolean                 $manage_package        = true,
-  Array[String[1]]        $listeners             = [':8542'],
-  Optional[String[1]]     $prefix                = undef,
-  String[3,3]             $not_found_status_code = '200',
-  Integer[1]              $concurency            = 1000,
-  Integer[0]              $cpus                  = 0,
-  Array[String[1]]        $backends              = ['http://127.0.0.1:8080'],
+  Hash[String[1],Hash]      $backends,
+  Stdlib::Ensure::Service   $ensure                = running,
+  Boolean                   $enable                = true,
+  Boolean                   $manage_package        = true,
+  Array[String[1]]          $listeners             = [':8542'],
+  Hash[String[1],Any]       $options               = {},
+  Hash[String[1],Any]       $upstreams             = {},
+  Hash[String[1],Hash]      $carbonsearch_backends = {},
 ) {
   require carbon::api::globals
 
