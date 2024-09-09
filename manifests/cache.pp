@@ -88,40 +88,26 @@
 #   Hard limits the number of whisper files that get created each second.
 #
 class carbon::cache (
-  Stdlib::Ensure::Service       $ensure                        = running,
-  Boolean                       $enable                        = true,
-  Boolean                       $manage_package                = true,
-  Integer[1]                    $max_cpu                       = $facts['processors']['count'],
-  Integer[1]                    $workers                       = $facts['processors']['cores'],
-  Enum[
-    'info', 'debug', 'warn',
-    'error', 'panic', 'fatal']  $log_level                     = 'error',
-  Integer[0]                    $max_updates_per_second        = 0,
-  Boolean                       $sparse_create                 = false,
-  Float[0,1]                    $physical_size_factor          = 0.75,
-  Boolean                       $flock                         = false,
-  Boolean                       $hash_filenames                = true,
-  Boolean                       $remove_empty_file             = false,
-  Integer[0]                    $max_size                      = 1000000,
-  Enum['max','sorted','noop']   $write_strategy                = 'max',
-  Hash[String[1],Any]           $storage_schemas               = {},
-  Hash[String[1],Any]           $storage_aggregations          = {},
-  Boolean                       $tcp_enable                    = true,
-  Optional[Stdlib::IP::Address] $tcp_bind_address              = undef,
-  Stdlib::Port                  $tcp_bind_port                 = 2003,
-  Integer[0]                    $tcp_buffer_size               = 0,
-  Boolean                       $server_enable                 = true,
-  Optional[Stdlib::IP::Address] $server_bind_address           = undef,
-  Stdlib::Port                  $server_bind_port              = 8080,
-  Boolean                       $server_query_cache            = true,
-  Boolean                       $server_streaming_query_cache  = false,
-  Integer[0]                    $server_query_cache_size       = 0,
-  Integer[1]                    $server_buckets                = 10,
-  Integer[1]                    $server_max_globs              = 100,
-  Integer[1]                    $server_max_metrics_rendered   = 1000000,
-  Integer[0]                    $server_max_creates_per_second = 0,
+  Stdlib::Ensure::Service       $ensure               = running,
+  Boolean                       $enable               = true,
+  Boolean                       $manage_package       = true,
+  Hash                          $override_options     = {},
+  Hash[String[1],Any]           $storage_schemas      = {},
+  Hash[String[1],Any]           $storage_aggregations = {},
 ) {
   require carbon::cache::globals
+
+  $_default_options = deep_merge({
+      common    => { 'user' => $carbon::cache::globals::user },
+      whisper   => {
+        'data-dir'         => "${carbon::cache::globals::data_dir}/whisper",
+        'schemas-file'     => "${carbon::cache::globals::config_dir}/storage-schemas.conf",
+        'aggregation-file' => "${carbon::cache::globals::config_dir}/storage-aggregation.conf",
+      },
+      'dump'    => { 'path' => "${carbon::cache::globals::data_dir}/dump" },
+      'logging' => { 'file' => "${carbon::cache::globals::log_dir}/go-carbon.log" },
+    },
+    $carbon::cache::globals::default_options)
 
   Class['carbon::cache::install']
   -> Class['carbon::cache::config']

@@ -1,0 +1,133 @@
+<%- | Hash      $options | -%>
+# This file is managed by Puppet. DO NOT EDIT.
+
+[common]
+user = "<%= $options['common']['user'] %>"
+graph-prefix = "<%= $options['common']['graph-prefix'] %>"
+metric-endpoint = "<%= $options['common']['metric-endpoint'] %>"
+max-cpu = <%= $options['common']['max-cpu'] %>
+metric-interval = "<%= $options['common']['metric-interval'] %>"
+
+[whisper]
+data-dir = "<%= $options['whisper']['data-dir'] %>"
+schemas-file = "<%= $options['whisper']['schemas-file'] %>"
+aggregation-file = "<%= $options['whisper']['aggregation-file'] %>"
+quotas-file = "<%= $options['whisper']['quotas-file'] %>"
+workers = <%= $options['whisper']['workers'] %>
+max-updates-per-second = <%= $options['whisper']['max-updates-per-second'] %>
+sparse-create = <%= $options['whisper']['sparse-create'] %>
+physical-size-factor = <%= $options['whisper']['physical-size-factor'] %>
+flock = <%= $options['whisper']['flock'] %>
+compressed = <%= $options['whisper']['compressed'] %>
+enabled = <%= $options['whisper']['enabled'] %>
+hash-filenames = <%= $options['whisper']['hash-filenames'] %>
+remove-empty-file = <%= $options['whisper']['remove-empty-file'] %>
+online-migration = <%= $options['whisper']['online-migration'] %>
+online-migration-rate = <%= $options['whisper']['online-migration-rate'] %>
+online-migration-global-scope = "<%= $options['whisper']['online-migration-global-scope'] %>"
+
+[cache]
+max-size = <%= $options['cache']['max-size'] %>
+write-strategy = "<%= $options['cache']['write-strategy'] %>"
+
+[udp]
+listen = "<%= $options['udp']['listen'] %>"
+enabled = <%= $options['udp']['enabled'] %>
+buffer-size = <%= $options['udp']['buffer-size'] %>
+
+[tcp]
+listen = "<%= $options['tcp']['listen'] %>"
+enabled = <%= $options['tcp']['enabled']  %>
+buffer-size = <%= $options['tcp']['buffer-size'] %>
+compression = "<%= $options['tcp']['compression'] %>"
+
+[pickle]
+listen = "<%= $options['pickle']['listen'] %>"
+max-message-size = <%= $options['pickle']['max-message-size'] %>
+enabled = <%= $options['pickle']['enabled'] %>
+buffer-size = <%= $options['pickle']['buffer-size'] %>
+
+[carbonlink]
+listen = "<%= $options['carbonlink']['listen'] %>"
+enabled = <%= $options['carbonlink']['enabled'] %>
+read-timeout = "<%= $options['carbonlink']['read-timeout'] %>"
+
+[grpc]
+listen = "127.0.0.1:7003"
+enabled = false
+
+[tags]
+enabled = false
+tagdb-url = "http://127.0.0.1:8000"
+tagdb-chunk-size = 32
+tagdb-update-interval = 100
+local-dir = "/var/lib/graphite/tagging/"
+tagdb-timeout = "1s"
+
+[carbonserver]
+listen = "<%= $options['carbonserver']['listen'] %>"
+enabled = <%= $options['carbonserver']['enabled'] %>
+query-cache-enabled = <%= $options['carbonserver']['query-cache-enabled'] %>
+streaming-query-cache-enabled = <%= $options['carbonserver']['streaming-query-cache-enabled'] %>
+query-cache-size-mb = <%= $options['carbonserver']['query-cache-size-mb'] %>
+find-cache-enabled = <%= $options['carbonserver']['find-cache-enabled'] %>
+buckets = <%= $options['carbonserver']['buckets'] %>
+max-globs = <%= $options['carbonserver']['max-globs'] %>
+fail-on-max-globs = <%= $options['carbonserver']['fail-on-max-globs'] %>
+empty-result-ok = <%= $options['carbonserver']['empty-result-ok'] %>
+do-not-log-404s = <%= $options['carbonserver']['do-not-log-404s'] %>
+metrics-as-counters = <%= $options['carbonserver']['metrics-as-counters'] %>
+trigram-index = <%= $options['carbonserver']['trigram-index'] %>
+internal-stats-dir = "<%= $options['carbonserver']['internal-stats-dir'] %>"
+cache-scan = <%= $options['carbonserver']['cache-scan'] %>
+max-metrics-globbed = <%= $options['carbonserver']['max-metrics-globbed'] %>
+max-metrics-rendered = <%= $options['carbonserver']['max-metrics-rendered'] %>
+trie-index = <%= $options['carbonserver']['trie-index'] %>
+concurrent-index = <%= $options['carbonserver']['concurrent-index'] %>
+realtime-index = <%= $options['carbonserver']['realtime-index'] %>
+file-list-cache = "<%= $options['carbonserver']['file-list-cache'] %>"
+file-list-cache-version = <%= $options['carbonserver']['file-list-cache-version'] %>
+max-creates-per-second = <%= $options['carbonserver']['max-creates-per-second'] %>
+no-service-when-index-is-not-ready = <%= $options['carbonserver']['no-service-when-index-is-not-ready'] %>
+max-inflight-requests = <%= $options['carbonserver']['max-inflight-requests'] %>
+render-trace-logging-enabled = <%= $options['carbonserver']['render-trace-logging-enabled'] %>
+
+[carbonserver.grpc]
+listen = ""
+enabled = false
+read-timeout = "1m0s"
+idle-timeout = "1m0s"
+write-timeout = "1m0s"
+scan-frequency = "5m0s"
+quota-usage-report-frequency = "1m0s"
+
+[dump]
+enabled = <%= $options['dump']['enabled'] %>
+path = "<%= $options['dump']['path'] %>"
+restore-per-second = <%= $options['dump']['restore-per-second'] %>
+
+[pprof]
+listen = "127.0.0.1:7007"
+enabled = false
+
+[[logging]]
+logger = "<%= $options['logging']['logger'] %>"
+file = "<%= $options['logging']['file'] %>"
+level = "<%= $options['logging']['level'] %>"
+encoding = "<%= $options['logging']['encoding'] %>"
+encoding-time = "<%= $options['logging']['encoding-time'] %>"
+encoding-duration = "<%= $options['logging']['encoding-duration'] %>"
+sample-tick = "<%= $options['logging']['sample-tick'] %>"
+sample-initial = <%= $options['logging']['sample-initial'] %>
+sample-thereafter = <%= $options['logging']['sample-thereafter'] %>
+
+[prometheus]
+enabled = false
+endpoint = "/metrics"
+[prometheus.labels]
+
+[tracing]
+enabled = false
+jaegerEndpoint = ""
+stdout = false
+send_timeout = "10s"

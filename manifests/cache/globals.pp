@@ -1,4 +1,5 @@
 class carbon::cache::globals (
+  Hash                  $default_options,
   String[1]             $package_name = 'go-carbon',
   String[1]             $service_name = 'go-carbon',
   String[1]             $user         = 'carbon',
